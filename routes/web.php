@@ -26,6 +26,7 @@ use App\Models\Sport;
 use App\Models\User;
 use App\Notifications\CertificateRequestNotification;
 use App\Services\AttendanceSessionService;
+use App\Services\FailedPasswordAttemptService;
 use App\Support\PortalNavigation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -76,6 +77,21 @@ Route::post('/login', function () {
 
         return redirect()->intended($credentials['role'] === 'Student' ? route('student.dashboard') : route('dashboard'));
     }
+
+    /*
+     * A wrong password is warned about by email as well as on the screen: the
+     * holder of the account and the sports coordinators are both notified.
+     * The service throttles the warnings, so repeated attempts cannot be
+     * used to flood a mailbox. The screen still shows the same message for
+     * every failed attempt, so the form cannot be used to find out which
+     * accounts exist.
+     */
+    app(FailedPasswordAttemptService::class)->reportLoginFailure(
+        $user,
+        $loginIdentifier,
+        $credentials['role'],
+        request(),
+    );
 
     return redirect()->route('login')->withErrors(['username' => 'Invalid email or password.'])->withInput(request()->only('username', 'role'));
 })->name('login.submit');

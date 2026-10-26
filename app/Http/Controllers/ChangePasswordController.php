@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\FailedPasswordAttemptService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -30,7 +32,7 @@ class ChangePasswordController extends Controller
 
         $athlete = $request->user();
 
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'current_password' => ['required', 'current_password'],
             'password' => ['required', 'string', 'min:8', 'confirmed', 'different:current_password'],
         ], [
@@ -38,6 +40,24 @@ class ChangePasswordController extends Controller
             'password.confirmed' => 'The new passwords do not match.',
             'password.different' => 'The new password must be different from the temporary password.',
         ]);
+
+        if ($validator->fails()) {
+            /*
+             * A wrong password is warned about by email as well as on the
+             * screen: the athlete and the sports coordinators are both
+             * notified, so somebody working on the account knows about it
+             * even when the athlete walks away from the screen.
+             */
+            if ($validator->errors()->has('current_password')) {
+                app(FailedPasswordAttemptService::class)->reportChangePasswordFailure($athlete, $request);
+            }
+
+            return back()
+                ->withErrors($validator)
+                ->withInput($request->except(['current_password', 'password', 'password_confirmation']));
+        }
+
+        $validated = $validator->validated();
 
         $athlete->forceFill([
             'password' => $validated['password'],

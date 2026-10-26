@@ -48,7 +48,7 @@
             </label>
         </div>
 
-        <button class="button auth-submit" type="submit">Login</button>
+        <button class="button auth-submit" type="submit">SIGN IN</button>
 
         <p class="auth-hint">Forgot your password? Please contact the Sports Coordinator or Admin for assistance.</p>
 

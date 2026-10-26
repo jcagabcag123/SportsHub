@@ -68,7 +68,7 @@
                 class="login-button"
                 href="{{ route('login') }}"
             >
-                Login
+                Sign In
             </a>
 
             <a
@@ -224,7 +224,7 @@
                         @if($announcement->event)
                             <a class="announcement-link" href="{{ route('events.show', $announcement->event) }}">
                                 View the event
-                                <span aria-hidden="true">&rarr;</span>
+                                
                             </a>
                         @endif
 

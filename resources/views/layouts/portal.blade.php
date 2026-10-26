@@ -158,9 +158,9 @@
                     $recentNotifications = $notificationUser->notifications()->latest()->limit(10)->get();
                 @endphp
                 <div class="portal-notifications" aria-label="Notifications">
-                    <button type="button" class="portal-notification-trigger" id="portal-notification-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="portal-notification-menu" data-notification-toggle>
+                    <button type="button" class="portal-notification-trigger" id="portal-notification-trigger" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" aria-controls="portal-notification-menu" data-notification-toggle>
                         <svg class="portal-notification-icon" aria-hidden="true"><use href="#icon-bell"></use></svg>
-                        <span class="portal-notification-label">Notifications</span>
+                        <span class="portal-notification-label visually-hidden">Notifications</span>
                         @if ($unreadNotificationCount > 0)
                             <span class="portal-notification-badge" aria-label="{{ $badgeCount }} unread notifications">{{ $badgeCount }}</span>
                         @endif
@@ -223,23 +223,6 @@
                     </div>
                 </div>
 
-                @if ($portalProfileUrl)
-                    <a class="portal-topbar-profile" href="{{ $portalProfileUrl }}">
-                        <span class="portal-topbar-profile-text">
-                            <strong>{{ $userName ?? auth()->user()->name }}</strong>
-                            <small>{{ $roleLabel ?? auth()->user()->role }}</small>
-                        </span>
-                        <x-avatar :user="auth()->user()" size="sm" decorative class="portal-topbar-avatar" />
-                    </a>
-                @else
-                    <div class="portal-topbar-profile">
-                        <span class="portal-topbar-profile-text">
-                            <strong>{{ $userName ?? auth()->user()->name }}</strong>
-                            <small>{{ $roleLabel ?? auth()->user()->role }}</small>
-                        </span>
-                        <x-avatar :user="auth()->user()" size="sm" decorative class="portal-topbar-avatar" />
-                    </div>
-                @endif
             @endauth
                 </div>
             </header>

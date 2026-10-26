@@ -218,7 +218,6 @@
 			</div>
 			<a class="text-link" href="{{ route('student.achievements') }}">
 				{{ $profileAchievements->count() > 4 ? 'View all '.$profileAchievements->count().' achievements' : 'View all achievements' }}
-				<span aria-hidden="true">&rarr;</span>
 			</a>
 		@endif
 	</section>

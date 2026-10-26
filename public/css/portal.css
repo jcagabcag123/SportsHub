@@ -361,7 +361,7 @@ body {
     .portal-notification-trigger { padding: 7px 9px; font-size: 11px; }
     .portal-notification-label { display: none; }
 }
-.notification-inbox { display: grid; gap: 16px; max-width: 960px; }
+.notification-inbox { display: grid; gap: 16px; width: 100%; }
 .notification-inbox-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; padding-bottom: 15px; border-bottom: 1px solid rgba(23, 24, 43, .12); }
 .notification-inbox-heading > div > span { color: var(--color-primary); font-size: 9px; font-weight: 700; }
 .notification-inbox-heading h1 { margin: 5px 0; }
@@ -1458,7 +1458,7 @@ html[data-theme="dark"] .dashboard-top-sports-list li { background: var(--color-
 .student-schedule-empty svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .student-schedule-empty strong { color: var(--color-text); font-size: 13px; }
 .student-schedule-empty p { margin: 0; font-size: 11px; }
-.student-announcements { display: grid; gap: 15px; max-width: 980px; }
+.student-announcements { display: grid; gap: 15px; width: 100%; }
 .student-announcements-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid rgba(23, 24, 43, .12); }
 .student-announcements-heading > div > span { color: var(--color-primary); font-size: 9px; font-weight: 700; }
 .student-announcements-heading h2 { margin: 5px 0 0; font-size: 20px; }
@@ -1481,7 +1481,7 @@ html[data-theme="dark"] .dashboard-top-sports-list li { background: var(--color-
 .student-announcements-empty svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .student-announcements-empty strong { color: var(--color-text); font-size: 13px; }
 .student-announcements-empty p { margin: 0; font-size: 11px; }
-.student-application-page { display: grid; gap: 14px; max-width: 980px; }
+.student-application-page { display: grid; gap: 14px; width: 100%; }
 .student-application-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid rgba(23, 24, 43, .12); }
 .student-application-heading > div > span { color: var(--color-primary); font-size: 9px; font-weight: 700; }
 .student-application-heading h2 { margin: 5px 0; font-size: 15px; font-weight: 800; }
@@ -1510,7 +1510,7 @@ html[data-theme="dark"] .dashboard-top-sports-list li { background: var(--color-
 .student-application-empty svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .student-application-empty strong { color: var(--color-text); font-size: 13px; }
 .student-application-empty p { margin: 0; font-size: 11px; }
-.student-coach-page { display: grid; gap: 20px; max-width: 960px; }
+.student-coach-page { display: grid; gap: 20px; width: 100%; }
 .student-coach-sport { display: grid; gap: 16px; }
 .student-coach-sport-heading > span { color: var(--color-primary); font-size: 9px; font-weight: 700; }
 .student-coach-sport-heading h2 { margin: 5px 0 0; font-size: 15px; font-weight: 800; }
@@ -1580,7 +1580,9 @@ html[data-theme="dark"] .dashboard-top-sports-list li { background: var(--color-
 .auth-alert-success { color: var(--color-success); background: var(--color-success-soft); }
 .auth-alert-error { color: var(--color-danger); background: var(--color-danger-soft); }
 .auth-footer { color: var(--color-muted); font-size: 11px; }
-.student-profile { display: grid; gap: 16px; max-width: 980px; }
+/* The profile fills the portal content width so it expands with the page
+   instead of leaving an empty column beside the header. */
+.student-profile { display: grid; gap: 16px; width: 100%; }
 .student-profile-hero { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 164px; padding: 22px; border-radius: 8px; color: #fff; background: linear-gradient(110deg, var(--color-primary), var(--color-accent)); }
 .student-profile-identity { display: flex; align-items: center; gap: 16px; min-width: 0; }
 .avatar { display: grid; place-items: center; flex: 0 0 auto; overflow: hidden; border-radius: 50%; object-fit: cover; }
@@ -3948,43 +3950,51 @@ html[data-theme="dark"] body {
 .portal-logout:focus-visible { outline: 3px solid rgba(255, 138, 61, .45); outline-offset: 2px; }
 
 /* ---- Top bar ------------------------------------------------------------- */
+/*
+ * The top bar is the one band of colour in the portal: a deep blue card that
+ * carries the brand and lifts the page away from the plain white cards below
+ * it. The dark theme keeps the same shape with the dark brand surface, so
+ * the header never turns into a pale card in dark mode.
+ */
 .portal-topbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
     margin-bottom: 20px;
-    padding: 12px 16px;
-    border: 1px solid var(--color-border);
+    padding: 16px 20px;
+    border: 1px solid var(--color-primary-border);
     border-radius: var(--hub-radius-lg);
-    background: var(--color-surface);
-    box-shadow: var(--shadow-xs);
+    background:
+        radial-gradient(120% 160% at 92% 0%, rgba(255, 105, 0, .38), transparent 55%),
+        linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-active) 100%);
+    box-shadow: var(--shadow-primary);
+}
+html[data-theme="dark"] .portal-topbar {
+    border-color: var(--color-border);
+    background:
+        radial-gradient(120% 160% at 92% 0%, rgba(255, 138, 61, .22), transparent 55%),
+        linear-gradient(135deg, var(--color-primary-soft) 0%, var(--color-surface) 100%);
+    box-shadow: var(--shadow-md);
 }
 .portal-topbar-start { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.portal-breadcrumb { display: flex; align-items: baseline; gap: 8px; min-width: 0; font-size: 12px; }
-.portal-breadcrumb-context { color: var(--color-muted); font-weight: 600; white-space: nowrap; }
-.portal-breadcrumb-separator { color: var(--color-border-strong); }
-.portal-breadcrumb-current { color: var(--color-text); font-size: 13px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.portal-topbar-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.portal-breadcrumb { display: flex; align-items: baseline; gap: 8px; min-width: 0; font-size: 13px; }
+.portal-breadcrumb-context { color: rgba(255, 255, 255, .80); font-weight: 600; white-space: nowrap; }
+.portal-breadcrumb-separator { color: rgba(255, 255, 255, .55); }
+.portal-breadcrumb-current { color: #fff; font-size: 16px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.portal-topbar-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
 .portal-icon-button { border-radius: 10px; }
 .portal-notification-trigger { border-radius: 10px; }
 
-.portal-topbar-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 4px 6px 4px 12px;
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    background: var(--surface);
-    color: inherit;
-    text-decoration: none;
+/* The controls inside the coloured bar stay light so they read as buttons. */
+.portal-topbar .portal-icon-button { background: var(--surface-strong); }
+.portal-topbar .portal-notification-trigger {
+    padding: 11px 14px;
+    font-size: 13px;
+    background: var(--surface-strong);
 }
-.portal-topbar-profile-text { display: flex; flex-direction: column; line-height: 1.25; text-align: right; }
-.portal-topbar-profile-text strong { color: var(--color-text); font-size: 12px; font-weight: 700; white-space: nowrap; }
-.portal-topbar-profile-text small { color: var(--color-muted); font-size: 10px; white-space: nowrap; }
-.portal-topbar-avatar { width: 32px; height: 32px; font-size: 11px; }
+.portal-topbar .portal-notification-icon { width: 18px; height: 18px; flex-basis: 18px; }
 
 /* ==========================================================================
    COMMAND CENTER
@@ -4352,10 +4362,11 @@ html[data-theme="dark"] body {
     .portal-sidebar-collapse { display: none; }
     .portal-sidebar-head { padding-right: 58px; }
     .portal-main { padding: 0 14px 30px; }
-    .portal-topbar { padding: 10px 12px; border-radius: var(--hub-radius-md); }
+    .portal-topbar { padding: 12px 14px; border-radius: var(--hub-radius-md); }
+    .portal-breadcrumb { font-size: 12px; }
+    .portal-breadcrumb-current { font-size: 15px; }
     .portal-breadcrumb-context, .portal-breadcrumb-separator { display: none; }
-    .portal-topbar-profile { padding: 4px; }
-    .portal-topbar-profile-text { display: none; }
+    .portal-topbar .portal-notification-trigger { padding: 9px 12px; font-size: 12px; }
     .hub-hero { padding: 18px; }
     .hub-hero-actions { width: 100%; }
     .hub-hero-actions .hub-button { flex: 1 1 auto; }
